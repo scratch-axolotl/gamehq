@@ -5,6 +5,6 @@ import App from './App.jsx';
 render(
   <React.StrictMode>
       <App />
-  </React.StrictMode>
+  </React.StrictMode>,
   document.getElementById('app'),
 );
