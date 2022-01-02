@@ -88,9 +88,9 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      templateContent: ({ htmlWebpackPlugin }) =>
-        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>gameHQ</title></head><body><div id="app"></div></body></html>',
+      template: __dirname + '/client/index.html',
       filename: 'index.html',
+      inject: 'body'
     }),
   ],
 };
