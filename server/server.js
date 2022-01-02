@@ -1,25 +1,32 @@
-import express from 'express';
-import path from 'path';
-const moduleURL = new URL(import.meta.url);
-const __dirname = path.dirname(moduleURL.pathname);
-import fetch from 'node-fetch';
-import fs from 'fs';
+require('dotenv/config'); // require the dotenv/config at beginning of file
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
-const router = express.Router();
-const port = 3000;
-
-app.use(express.json());
+const port = process.env.PORT || 3000;
+ 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-});
+	res.send('Hello from server')
+})
 
-// Potentially remove this line as unnecessary.
-app.get('/bundle.js', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build/bundle.js'));
-});
+app.get('*', (req, res) => {
+	res.sendStatus(404);
+})
 
-app.listen(port, () => {
-  console.log('Listening on port ' + port);
-});
+app.use((err, req, res, next) => {
+	const defaultErr = {
+	log: 'Express error handler caught unknown middleware error',
+	status: 400,
+	message: { err: 'An error occured'},
+	}
+
+	const errorObj = Object.assign(defaultErr, err);
+
+	res.status(errorObj.status).send(errorObj.message);
+})
+
+app.listen(port, () => console.log(`Listening on port ${port}.`));

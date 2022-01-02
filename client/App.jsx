@@ -1,9 +1,10 @@
 import React from "react";
-import { render } from "react-dom";
-const App = (props) => {
+import './styles/App.css';
+
+const App = () => {
   return (
-    <div>
-    </div>
+    <h1>Hello from React</h1>
   );
 };
+
 export default App;
