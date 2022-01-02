@@ -2,9 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
-  entry: ['react-hot-loader/patch', './client/index.js'],
+  entry: ['./client/index.js'],
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
   },
   output: {
     path: path.resolve(__dirname, 'client/dist'),
@@ -12,16 +12,15 @@ const config = {
   },
   module: {
     rules: [
-      // would only land a "hot-patch" to react-dom
-      {
-        test: /\.js$/,
-        include: /node_modules\/react-dom/,
-        use: ['react-hot-loader/webpack'],
-      },
       {
         test: /\.(js|jsx)$/,
-        use: 'babel-loader',
         exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+          },
+        },
       },
       {
         test: /\.css$/,
