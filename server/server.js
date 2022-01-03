@@ -5,10 +5,7 @@ import express from 'express';
 import path from 'path';
 const moduleURL = new URL(import.meta.url);
 const __dirname = path.dirname(moduleURL.pathname);
-// import controllers from controller files if needed
 import gameController from './controllers/gameController.js';
-
-// potentially import fs if needed
 
 const app = express();
 const router = express.Router();
@@ -40,17 +37,10 @@ app.get('/getGames', gameController.retrieveGames, gameController.filterRating, 
 
 });
 
-app.get('/searchGames', gameController.searchGames, (req, res) => {
+app.get('/retrieveMore', gameController.retrieveMore, (req, res) => {
   res.set('Content-Type', 'application/json');
   res.status(200);
-  // Should likely use a different variable name -- let's try 'search response.'
-  res.send(JSON.stringify(res.locals.searchResponse));
-});
-
-app.get('/retrieveInfo', gameController.retrieveInfo, (req, res) => {
-  res.set('Content-Type', 'application/json');
-  res.status(200);
-  res.send(JSON.stringify(res.locals.infoResponse));
+  res.send(JSON.stringify(res.locals.moreInfo));
 });
 
 app.get('*', (req, res) => {
@@ -65,7 +55,6 @@ app.use((err, req, res, next) => {
   };
 
   const errorObj = Object.assign(defaultErr, err);
-
   res.status(errorObj.status).send(errorObj.message);
 });
 

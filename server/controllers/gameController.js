@@ -211,38 +211,77 @@ gameController.filterRating = (req, res, next) => {
   // otherwise, put some error in here -- shouldn't be possible to get here.
 };
 
-gameController.searchGames = async (req, res, next) => {
-  // If we search for a specific game.
-  // if the client does submit a query, then return the result(s).
-  console.log('testing searchGames');
-  if (req.query.search) {
-    // check with JA on whether we should have options for fuzzy versus exact.
-    let queryHolder = `https://api.rawg.io/api/games?search=${req.query.search}&key=${API_KEY}&page_size=${PAGE_SIZE}`;
-    res.locals.searchData = await gameController.traverseLinked(queryHolder);;
-    return next();
-  } else {
-    console.log('send back an error to the client associated with no search result');
-    return next();
-  }
-};
-
 // Given a specific selected game, pull the requested info.
-gameController.retrieveInfo = async (req, res, next) => {
-  // Information needed for game: name, image, genre, platform, rating.
-  let gameID = req.query.id;
-  let queryHolder = `https://api.rawg.io/api/games/${GameID}?key=${API_KEY}`;
-  await axios(queryHolder)
-  .then( (response) => {
-    console.log(response.data);
-  });
-  res.locals.infoResponse = response.data;
-  return next();
-};
-
 gameController.retrieveMore = async (req, res, next) => {
   // Additional information needed for game: trailer, videos, price, wheretobuy
+  //req.id -->
+  console.log('query id is ' + req.query.id);
+  let gameID = req.query.id;
+  let queryHolder = `https://api.rawg.io/api/games/${gameID}?key=${API_KEY}`;
+  res.locals.moreInfo = await axios(queryHolder).
+  then ( (response) => {
+    return response.data;
+  });
   return next();
 };
+/*
+  "/games/{id}/movies": {
+    "get": {
+      "operationId": "games_movies_read",
+      "summary": "Get a list of game trailers.",
+      "description": "",
+      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
+      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Movie" } } },
+      "tags": ["games"]
+    },
+    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
+  },
+  "/games/{id}/reddit": {
+    "get": {
+      "operationId": "games_reddit_read",
+      "summary": "Get a list of most recent posts from the game's subreddit.",
+      "description": "",
+      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
+      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Reddit" } } },
+      "tags": ["games"]
+    },
+    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
+  },
+  "/games/{id}/suggested": {
+    "get": {
+      "operationId": "games_suggested_read",
+      "summary": "Get a list of visually similar games, available only for business and enterprise API users.",
+      "description": "",
+      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
+      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/GameSingle" } } },
+      "tags": ["games"]
+    },
+    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
+  },
+  "/games/{id}/twitch": {
+    "get": {
+      "operationId": "games_twitch_read",
+      "summary": "Get streams on Twitch associated with the game, available only for business and enterprise API users.",
+      "description": "",
+      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
+      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Twitch" } } },
+      "tags": ["games"]
+    },
+    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
+  },
+  "/games/{id}/youtube": {
+    "get": {
+      "operationId": "games_youtube_read",
+      "summary": "Get videos from YouTube associated with the game, available only for business and enterprise API users.",
+      "description": "",
+      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
+      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Youtube" } } },
+      "tags": ["games"]
+    },
+    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
+  },
+*/
+
 
 // refactor so that this can be used
 gameController.traverseLinked = async function (currentQuery) {
