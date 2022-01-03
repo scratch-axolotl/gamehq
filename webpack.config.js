@@ -36,7 +36,7 @@ const config = {
         ],
         exclude: /\.module\.css$/,
       },
-      {
+       {
         test: /\.css$/,
         use: [
           'style-loader',
@@ -56,19 +56,15 @@ const config = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.png$/,
+        test: /\.(png|svg|jpg|gif)$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
-              mimetype: 'image/png',
+              name: '/images/[name].[ext]',
             },
           },
         ],
-      },
-      {
-        test: /\.svg$/,
-        use: 'file-loader',
       },
     ],
   },
