@@ -83,7 +83,10 @@ gameController.retrieveGames = async (req, res, next) => {
   // Declare base of API query to RAWG.io, including our API key from our .env file.
   let queryHolder = `https://api.rawg.io/api/games?key=${API_KEY}`;
 
-  //let queryHolder = `https://api.rawg.io/api/tags?key=${API_KEY}`
+  if (req.query.search) {
+    // check with JA on whether we should have options for fuzzy versus exact.
+    queryHolder += `&search=${req.query.search}`;
+  }
 
   // If genres have been selected, add those genres to the query.
   if (req.query.genres) {
@@ -114,28 +117,16 @@ gameController.retrieveGames = async (req, res, next) => {
   }
 
   console.log('the query you made to the remote api is ');
-
   queryHolder += `&page_size=${PAGE_SIZE}`;
   console.log(queryHolder);
 
   // Fetch data from the server until we reach the end of our linked list, or hit max.
   let pagesTraversed = 1;
   let currentQuery = queryHolder;
-
   let gameResultHolder = [];
-  //await pageTraverser();
-
-  // Not sure this even needs to be asynchronous. Confirm after result is effective.
-
-
-
   // I dont think we want to stringify it here.  I think we only want to stringify it after it goes back to the client.
   res.locals.gameData = await gameController.traverseLinked(currentQuery);
   fs.writeFileSync('lastQueryResults.json', JSON.stringify(res.locals.gameData));
-
-  // below is temporary until we fix it below
-  //res.locals.gameResponse = res.locals.gameData;
-
   // Error handling
   return next();
 };
@@ -143,7 +134,6 @@ gameController.retrieveGames = async (req, res, next) => {
 // check whether or not these functions really need to be async. non-fetch ones dont.
 gameController.filterRating = (req, res, next) => {
   // In RAWG.io's API, each esrb_rating property has an id, a name, and an associated slug.
-
   // Reverse engineered ESRB Rating info from API:
   /* id       name            slug
      5        'Adults Only'   adults-only
@@ -152,7 +142,6 @@ gameController.filterRating = (req, res, next) => {
      2        'Everyone 10+'  everyone-10-plus
      1        'Everyone'      everyone
   */
-
   // first, check if we even have gameData set correctly.
   if (!res.locals.gameData) {
     // fill in actual error code here
@@ -263,12 +252,6 @@ gameController.traverseLinked = async function (currentQuery) {
   while (currentQuery !== null && pagesTraversed < 6) {
     const gameResult = await axios(currentQuery)
       .then((response) => {
-        // response.data would be the whole object. result.data.results is simply the results array
-        // of retrieved games.
-        //res.locals.gameData = JSON.stringify(response.data.results);
-
-        // for temp purposes iterate through each object in the array of objects and get the id, name, slug, gamescount.
-        //gameResultHolder = gameResultHolder.concat(response.data.results);
         gameResultHolder = gameResultHolder.concat(response.data.results);
 
         currentQuery = response.data.next;
@@ -293,42 +276,3 @@ gameController.traverseLinked = async function (currentQuery) {
 }
 
 export default gameController;
-
-
-// USE TRAVERSE LINKED INSTEAD OF DUPLICATING FUNCTIONS
-/*
-
-This is old junk that can be cut out -- it's in another function now.
-
-async function pageTraverser() {
-  while (currentQuery !== null && pagesTraversed < 6) {
-    const gameResult = await axios(currentQuery)
-      .then((response) => {
-        // response.data would be the whole object. result.data.results is simply the results array
-        // of retrieved games.
-        //res.locals.gameData = JSON.stringify(response.data.results);
-
-        // for temp purposes iterate through each object in the array of objects and get the id, name, slug, gamescount.
-        //gameResultHolder = gameResultHolder.concat(response.data.results);
-        gameResultHolder = gameResultHolder.concat(response.data.results);
-
-        currentQuery = response.data.next;
-        console.log(`the number of retrieved games on the CURRENT page, ${pagesTraversed} is ` + response.data.results.length);
-        console.log(
-          `to retrieve all content, you would need to make ${Math.ceil((response.data.count - PAGE_SIZE * pagesTraversed) / PAGE_SIZE)} additional API calls`
-        );
-        console.log(`here are the games on page ${pagesTraversed}`);
-        const resultArray = [];
-        response.data.results.forEach((game) => {
-          resultArray.push(game.name);
-        });
-        console.log(JSON.stringify(resultArray));
-      })
-      .catch((err) => {
-        console.log(`hit ${err} error when trying to run the axios request`);
-        // Fill in error logging here.
-      });
-    pagesTraversed++;
-  }
-}
-*/
