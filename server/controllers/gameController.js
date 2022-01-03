@@ -39,7 +39,8 @@ gameController.retrieveGames = async (req, res, next) => {
   // If platforms have been selected, add those platforms to the query.
   if (req.query.platforms) {
     queryHolder += '&platforms=';
-
+    queryHolder += req.query.platforms;
+    /*
     // Platforms are received from the frontend in a comma-separated string of slugs, which need to be converted to an array of numbers.
     // Split the frontend into an array of slugs.
     const platformArray = req.query.platforms.split(',');
@@ -50,7 +51,7 @@ gameController.retrieveGames = async (req, res, next) => {
     });
 
     // Trim the final comma off of the query.
-    queryHolder = queryHolder.slice(0, -1);
+    queryHolder = queryHolder.slice(0, -1);*/
   }
 
   // If tags have been selected, add those tags to the query.
