@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
 const config = {
   entry: ['./client/index.js'],
@@ -91,12 +90,7 @@ const config = {
     new HtmlWebpackPlugin({
       template: __dirname + '/client/index.html',
       filename: 'index.html',
-      inject: 'body',
-    }),
-  ],
-  plugins: [
-    new webpack.ProvidePlugin({
-      React: 'react',
+      inject: 'body'
     }),
   ],
 };
