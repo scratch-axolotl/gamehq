@@ -5,7 +5,6 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import Pacman from '../dist/images/pacman.svg';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -175,6 +174,22 @@ export default function CustomizedAccordions() {
               <li>Unity</li>
               <li>VR</li>
               <li>Zombies</li>
+            </ul>
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+        <AccordionSummary aria-controls='panel4d-content' id='panel4d-header'>
+          <Typography>Tags</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            <ul className='list-4'>
+              <li>Everyone</li>
+              <li>Everyone 10+</li>
+              <li>Teen</li>
+              <li>Anime</li>
+              <li>Co-op</li>
             </ul>
           </Typography>
         </AccordionDetails>
