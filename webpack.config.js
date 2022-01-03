@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 const config = {
   entry: ['./client/index.js'],
@@ -37,38 +38,19 @@ const config = {
         exclude: /\.module\.css$/,
       },
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              modules: true,
-            },
-          },
-          'postcss-loader',
-        ],
-        include: /\.module\.css$/,
-      },
-      {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.png$/,
+        test: /\.(png|svg|jpg|gif)$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
-              mimetype: 'image/png',
+              name: '/images/[name].[ext]',
             },
           },
         ],
-      },
-      {
-        test: /\.svg$/,
-        use: 'file-loader',
       },
     ],
   },
@@ -90,7 +72,12 @@ const config = {
     new HtmlWebpackPlugin({
       template: __dirname + '/client/index.html',
       filename: 'index.html',
-      inject: 'body'
+      inject: 'body',
+    }),
+  ],
+  plugins: [
+    new webpack.ProvidePlugin({
+      React: 'react',
     }),
   ],
 };

@@ -1,9 +1,12 @@
-import React from "react";
+import React from 'react';
 import './styles/App.css';
+import LandingPage from './components/LandingPage';
 
 const App = () => {
   return (
-    <h1>Hello from React</h1>
+    <div>
+      <LandingPage/>
+    </div>
   );
 };
 
