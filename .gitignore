@@ -5,6 +5,8 @@ client/dist/*
 !client/dist/images
 node_modules/
 *.log
+testData/
+api_specs/
 
 #.env files contain passwords/api keys
 .env
