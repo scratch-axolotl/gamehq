@@ -1,60 +1,104 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
-module.exports = {
-  mode: process.env.NODE_ENV,
-  entry: './client/index.js',
+const config = {
+  entry: ['./client/index.js'],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'client/dist'),
     filename: 'bundle.js',
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {
-        test: /\.jsx?/,
-        exclude: /(node_modules)/,
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
-      },
-      { test: /\.js$/,
-        enforce: 'pre',
-        use: ['source-map-loader'],
+            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+          },
+        },
       },
       {
-        test: /\.css$/i,
-        exclude: /(node_modules)/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          'postcss-loader',
+        ],
+        exclude: /\.module\.css$/,
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-              name:'img/[name]_[hash:7].[ext]',
-          }
-      }]
-      }
-    ]
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+          'postcss-loader',
+        ],
+        include: /\.module\.css$/,
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.png$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              mimetype: 'image/png',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: 'file-loader',
+      },
+    ],
   },
-  plugins: [new HtmlWebpackPlugin({
-    template: __dirname + '/client/index.html',
-    filename: 'index.html',
-    inject: 'body'
-  })],
   devServer: {
+    historyApiFallback: true,
     static: {
-      directory: path.join(__dirname, 'client'),
-      publicPath: '/'
+      directory: './client/dist',
     },
-    proxy:{
-
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/',
+        pathRewrite: { '^/api': '' },
+        secure: false,
+      },
     },
-    compress: true,
-    port:8080,
-  }
+    port: 8080,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + '/client/index.html',
+      filename: 'index.html',
+      inject: 'body',
+    }),
+  ],
+  plugins: [
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
+  ],
 };
+
+module.exports = config;

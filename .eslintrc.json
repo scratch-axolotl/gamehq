@@ -1,18 +1,37 @@
 {
   "root": true,
-  "ignorePatterns": ["**/util"],
+  "ignorePatterns": ["**/test", "**/__tests__"],
   "env": {
-    "node": true,
-    "es2021": true
+    "commonjs": true,
+    "es6": true,
+    "node": true
   },
-  "extends": "eslint:recommended",
-  "parserOptions": { "sourceType": "module" },
+	"globals": { 
+    "fetch": false , 
+    "document": false, 
+    "window": false, 
+    "localStorage": false, 
+    "Atomics": "readonly", 
+    "SharedArrayBuffer": "readonly" 
+  },
+  "extends": ["prettier, airbnb-base"],
+	"parser":"@babel/eslint-parser",
+  "parserOptions": { 
+    "sourceType": "module" ,
+    "requireConfigFile": false, 
+    "ecmaVersion": 2018 
+  },
+	"plugins": [
+    "react-hooks", "prettier"
+  ],
   "rules": {
     "indent": ["warn", 2],
     "no-unused-vars": ["off", { "vars": "local" }],
     "prefer-const": "warn",
     "quotes": ["warn", "single"],
-    "semi": ["warn", "always"],
-    "space-infix-ops": "warn"
+    "space-infix-ops": "warn",
+    "prettier/prettier": "error",
+		"react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn" // <--- THIS IS THE NEW RULE
   }
 }
