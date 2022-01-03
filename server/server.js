@@ -1,29 +1,34 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
 import express from 'express';
 import path from 'path';
 const moduleURL = new URL(import.meta.url);
 const __dirname = path.dirname(moduleURL.pathname);
-// import controllers from controller files if needed
 import gameController from './controllers/gameController.js';
-
-// potentially import fs if needed
+import sessionController from './controllers/sessionController.js';
 
 const app = express();
 const router = express.Router();
 const port = process.env.port || 3000;
 
-// Middleware to use if incoming REQUEST is JSON.
-//app.use(express.json());
+app.use(express.json());
 
-// Let's only import this after we know it's needed.
-//const bodyParser = require('body-parser');
-// Let's only import this once we know it's necessary.
-//app.use(bodyParser.json());
+app.post('/loginUser', sessionController.loginUser, sessionController.checkPassword, (req, res) => {
+  if (res.locals.clearance === true) {
+    res.send('Access granted. You can go to the landing page');
+  } else {
+    res.send('Access denied. You get bounced back to index.html');
+  }
+});
 
-// Let's only import this once we know it's necessary.
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.post('/addUser', sessionController.loginUser, sessionController.addUser, (req, res) => {
+  // add functionality to reject if username already exists in database
+  if (res.locals.userAlreadyExists === true) {
+    res.send('Failed. User already exists');
+  } else {
+    res.send('Success. User doesnt exist, but was created');
+  }
+});
 
 app.get('/getGames', gameController.retrieveGames, gameController.filterRating, (req, res) => {
   // This is the default directory, which will receive calls that are routed to '/api'.
@@ -40,17 +45,14 @@ app.get('/getGames', gameController.retrieveGames, gameController.filterRating, 
 
 });
 
-app.get('/searchGames', gameController.searchGames, (req, res) => {
-  res.set('Content-Type', 'application/json');
-  res.status(200);
-  // Should likely use a different variable name -- let's try 'search response.'
-  res.send(JSON.stringify(res.locals.searchResponse));
-});
 
-app.get('/retrieveInfo', gameController.retrieveInfo, (req, res) => {
+// If we need more specific info, retrieve it, along with the URLs for any movies or screenshots.
+app.get('/retrieveMore', gameController.retrieveMore, gameController.retrieveMovies, gameController.retrieveScreenshots, gameController.retrieveStores, gameController.formatPrices, (req, res) => {
   res.set('Content-Type', 'application/json');
   res.status(200);
-  res.send(JSON.stringify(res.locals.infoResponse));
+  console.log(res.locals.retrieveMovies);
+  console.log('made it to the end');
+  res.send(JSON.stringify(res.locals.movieInfo));
 });
 
 app.get('*', (req, res) => {
@@ -65,7 +67,6 @@ app.use((err, req, res, next) => {
   };
 
   const errorObj = Object.assign(defaultErr, err);
-
   res.status(errorObj.status).send(errorObj.message);
 });
 
