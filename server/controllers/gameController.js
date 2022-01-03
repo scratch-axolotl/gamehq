@@ -4,6 +4,10 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 dotenv.config();
 
+import db from './models.cjs';
+
+console.log(JSON.stringify(db));
+
 // Import hidden API key from env file.
 const API_KEY = process.env.API_KEY;
 
@@ -11,70 +15,8 @@ const API_KEY = process.env.API_KEY;
 const PAGE_SIZE = 40;
 
 // This is a platform reference table that converts frontend platform references to numbers used on the backend.
-const platformReference = {
-  'xbox-one': 1,
-  ios: 3,
-  pc: 4,
-  macos: 5,
-  linux: 6,
-  'nintendo-switch': 7,
-  'nintendo-3ds': 8,
-  'nintendo-ds': 9,
-  'wii-u': 10,
-  wii: 11,
-  neogeo: 12,
-  neogeo: 12,
-  'nintendo-dsi': 13,
-  xbox360: 14,
-  playstation2: 15,
-  playstation3: 16,
-  psp: 17,
-  playstation4: 18,
-  'ps-vita': 19,
-  android: 21,
-  'atari-flashback': 22,
-  'atari-2600': 23,
-  'game-boy-advance': 24,
-  'atari-8-bit': 25,
-  'game-boy': 26,
-  playstation1: 27,
-  'atari-7800': 28,
-  'atari-5200': 31,
-  'atari-st': 34,
-  'apple-ii': 41,
-  'game-boy-color': 43,
-  'atari-lynx': 46,
-  nes: 49,
-  'atari-xegs': 50,
-  macintosh: 55,
-  'sega-master-system': 74,
-  'sega-master-system': 74,
-  'game-gear': 77,
-  'game-gear': 77,
-  snes: 79,
-  'xbox-old': 80,
-  'nintendo-64': 83,
-  gamecube: 105,
-  dreamcast: 106,
-  dreamcast: 106,
-  'sega-saturn': 107,
-  'sega-saturn': 107,
-  '3do': 111,
-  '3do': 111,
-  jaguar: 112,
-  jaguar: 112,
-  'sega-32x': 117,
-  'sega-32x': 117,
-  'sega-cd': 119,
-  'sega-cd': 119,
-  'commodore-amiga': 166,
-  genesis: 167,
-  genesis: 167,
-  web: 171,
-  web: 171,
-  'xbox-series-x': 186,
-  playstation5: 187,
-};
+import platformReference from '../constants/platforms.js';
+
 
 // Remove async from any functions that do not use asynchronous code.
 gameController.retrieveGames = async (req, res, next) => {
@@ -126,12 +68,11 @@ gameController.retrieveGames = async (req, res, next) => {
   let gameResultHolder = [];
   // I dont think we want to stringify it here.  I think we only want to stringify it after it goes back to the client.
   res.locals.gameData = await gameController.traverseLinked(currentQuery);
-  fs.writeFileSync('lastQueryResults.json', JSON.stringify(res.locals.gameData));
   // Error handling
   return next();
 };
 
-// check whether or not these functions really need to be async. non-fetch ones dont.
+// check whether or not these functions really need to be async.
 gameController.filterRating = (req, res, next) => {
   // In RAWG.io's API, each esrb_rating property has an id, a name, and an associated slug.
   // Reverse engineered ESRB Rating info from API:
@@ -162,16 +103,15 @@ gameController.filterRating = (req, res, next) => {
     // for now, keep track for error-checking purposes of the total number of games in each category
     const retrievedRatingCounter = {
       'adults-only': 0,
-      'mature': 0,
-      'teen': 0,
+      mature: 0,
+      teen: 0,
       'everyone-10-plus': 0,
-      'everyone': 0,
-      'null': 0,
-      'rating-pending:': 0
+      everyone: 0,
+      null: 0,
+      'rating-pending:': 0,
     };
 
     res.locals.gameData.forEach((game) => {
-
       if (!game.esrb_rating) {
         // if game doesnt have an ESRB rating, push its name into the failure array, and increment the count of null results.
         gameFailNames.push(game.name);
@@ -190,16 +130,10 @@ gameController.filterRating = (req, res, next) => {
       }
     });
     res.locals.gameResponse = gamesMatchingESRB;
-
     console.log('The games responsive to the query fall into the following categories');
     console.log(JSON.stringify(retrievedRatingCounter));
-
     console.log('\n\n\nHere are the games that passed the ESRB test.');
     console.log(gamePassNames);
-
-    //console.log('Here are the games that did not pass the ESRB test');
-    //console.log(gameFailNames);
-
     return next();
   } else {
     // If the ESRB rating filter isn't set, just return all games returned from teh API.
@@ -218,72 +152,73 @@ gameController.retrieveMore = async (req, res, next) => {
   console.log('query id is ' + req.query.id);
   let gameID = req.query.id;
   let queryHolder = `https://api.rawg.io/api/games/${gameID}?key=${API_KEY}`;
-  res.locals.moreInfo = await axios(queryHolder).
-  then ( (response) => {
+  res.locals.moreInfo = await axios(queryHolder).then((response) => {
     return response.data;
   });
   return next();
 };
-/*
-  "/games/{id}/movies": {
-    "get": {
-      "operationId": "games_movies_read",
-      "summary": "Get a list of game trailers.",
-      "description": "",
-      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
-      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Movie" } } },
-      "tags": ["games"]
-    },
-    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
-  },
-  "/games/{id}/reddit": {
-    "get": {
-      "operationId": "games_reddit_read",
-      "summary": "Get a list of most recent posts from the game's subreddit.",
-      "description": "",
-      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
-      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Reddit" } } },
-      "tags": ["games"]
-    },
-    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
-  },
-  "/games/{id}/suggested": {
-    "get": {
-      "operationId": "games_suggested_read",
-      "summary": "Get a list of visually similar games, available only for business and enterprise API users.",
-      "description": "",
-      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
-      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/GameSingle" } } },
-      "tags": ["games"]
-    },
-    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
-  },
-  "/games/{id}/twitch": {
-    "get": {
-      "operationId": "games_twitch_read",
-      "summary": "Get streams on Twitch associated with the game, available only for business and enterprise API users.",
-      "description": "",
-      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
-      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Twitch" } } },
-      "tags": ["games"]
-    },
-    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
-  },
-  "/games/{id}/youtube": {
-    "get": {
-      "operationId": "games_youtube_read",
-      "summary": "Get videos from YouTube associated with the game, available only for business and enterprise API users.",
-      "description": "",
-      "parameters": [{ "name": "id", "in": "path", "description": "An ID or a slug identifying this Game.", "required": true, "type": "string" }],
-      "responses": { "200": { "description": "", "schema": { "$ref": "#/definitions/Youtube" } } },
-      "tags": ["games"]
-    },
-    "parameters": [{ "name": "id", "in": "path", "description": "A unique integer value identifying this Game.", "required": true, "type": "integer" }]
-  },
-*/
 
+gameController.retrieveMovies = async (req, res, next) => {
+  console.log('query id is ' + req.query.id);
+  let gameID = req.query.id;
+  let queryHolder = `https://api.rawg.io/api/games/${gameID}/movies?key=${API_KEY}`;
+  console.log(queryHolder);
+  res.locals.movieInfo = await axios(queryHolder).then((response) => {
+    return response.data;
+  });
 
-// refactor so that this can be used
+  return next();
+};
+
+gameController.retrieveScreenshots = async (req, res, next) => {
+  let gameID = req.query.id;
+  let queryHolder = `https://api.rawg.io/api/games/${gameID}/screenshots?key=${API_KEY}`;
+  res.locals.screenShotInfo = await axios(queryHolder).then((response) => {
+    return response.data;
+  });
+  return next();
+};
+
+gameController.retrieveStores = async (req, res, next) => {
+  let gameID = req.query.id;
+  let queryHolder = `https://api.rawg.io/api/games/${gameID}/stores?key=${API_KEY}`;
+  res.locals.storeInfo = await axios(queryHolder).then((response) => {
+    return response.data.results;
+  });
+  fs.writeFileSync('lastQueryResults.json', JSON.stringify(res.locals.storeInfo));
+  return next();
+};
+
+gameController.formatPrices = async (req, res, next) => {
+ // Steam price functionality not yet working.
+
+  /*let steamURL;
+  let fakeURL = 'http://store.steampowered.com/api/appdetails?appids=570940';
+  for (let i = 0; i < res.locals.storeInfo.length; i++) {
+    // if we are looking at the steam store . . .
+    const currentStore = res.locals.storeInfo[i];
+    if (currentStore.store_id === 1) {
+      // format url 35 -1
+      const steamID = currentStore.url.slice(35, -1);
+      steamURL = `http://store.steampowered.com/api/appdetails?appids=${steamID}&key=8025634F2FB88234ADCE421DB6077664`;
+    }
+  }
+  console.log('steam url is ' + steamURL);
+  res.locals.price = await axios(steamURL)
+    .catch ( (error) => {
+      if (error.response) {
+        console.log(error.response.data);
+      }
+    })
+    .then( (response) => {
+      console.log(response.data);
+      return response.data;
+    })
+  // get steam prices.*/
+  return next();
+};
+
+// refactor so that this can be used -- I think it is already.
 gameController.traverseLinked = async function (currentQuery) {
   let pagesTraversed = 1;
   let gameResultHolder = [];
@@ -312,6 +247,6 @@ gameController.traverseLinked = async function (currentQuery) {
     pagesTraversed++;
   }
   return gameResultHolder;
-}
+};
 
 export default gameController;
