@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/App.css';
-// JOHN IMPORTS BELOW //
+import LandingPage from './components/LandingPage';
 import './styles/SearchDropDowns.scss';
 import SearchDropDown from './components/SearchDropDown';
 import { SubmitSearchButton } from './components/SubmitSearchButton';
@@ -28,8 +28,7 @@ const App = () => {
   // MAIN APP RENDER RETURN //
   return (
     <div>
-      <h1>Hello from React</h1>
-      {/* {LandingPage()} */}
+      <LandingPage/>
       {DisplaySearchPage()}
     </div>
   );

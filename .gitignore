@@ -2,6 +2,7 @@
 coverage/
 client/dist/*
 !client/dist/index.html
+!client/dist/images
 node_modules/
 *.log
 testData/
