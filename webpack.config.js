@@ -37,6 +37,21 @@ const config = {
         ],
         exclude: /\.module\.css$/,
       },
+       {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+          'postcss-loader',
+        ],
+        include: /\.module\.css$/,
+      },
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
