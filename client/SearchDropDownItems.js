@@ -281,3 +281,135 @@ export const platformItems = [
     name: 'Xbox Series S/X',
   },
 ];
+
+// TAG ITEMS // need to put in ids
+export const tagItems = [
+  {
+    id: '2D',
+    name: '2D',
+  },
+  {
+    id: '3D',
+    name: '3D',
+  },
+  {
+    id: 'Action-Adventure',
+    name: 'Action-Adventure',
+  },
+  {
+    id: 'Anime',
+    name: 'Anime',
+  },
+  {
+    id: 'Co-op',
+    name: 'Co-op',
+  },
+  {
+    id: 'Exploration',
+    name: 'Exploration',
+  },
+  {
+    id: 'Fantasy',
+    name: 'Fantasy',
+  },
+  {
+    id: 'First-Person',
+    name: 'First-Person',
+  },
+  {
+    id: 'FPS',
+    name: 'FPS',
+  },
+  {
+    id: 'Horror',
+    name: 'Horror',
+  },
+  {
+    id: 'Local Multiplayer',
+    name: 'Local Multiplayer',
+  },
+  {
+    id: 'Multiplayer',
+    name: 'Multiplayer',
+  },
+  {
+    id: 'Music',
+    name: 'Music',
+  },
+  {
+    id: 'Mystery',
+    name: 'Mystery',
+  },
+  {
+    id: 'Pixel Graphics',
+    name: 'Pixel Graphics',
+  },
+  {
+    id: 'Retro',
+    name: 'Retro',
+  },
+  {
+    id: 'RPG',
+    name: 'RPG',
+  },
+  {
+    id: 'Sci-fi',
+    name: 'Sci-fi',
+  },
+  {
+    id: 'Short',
+    name: 'Short',
+  },
+  {
+    id: 'Singleplayer',
+    name: 'Singleplayer',
+  },
+  {
+    id: 'Space',
+    name: 'Space',
+  },
+  {
+    id: 'Story',
+    name: 'Story',
+  },
+  {
+    id: 'Third Person',
+    name: 'Third Person',
+  },
+  {
+    id: 'Unity',
+    name: 'Unity',
+  },
+  {
+    id: 'VR',
+    name: 'VR',
+  },
+  {
+    id: 'Zombies',
+    name: 'Zombies',
+  },
+];
+
+// ESRB ITEMS // 
+export const ESRBitems = [
+  {
+    id: 5,
+    name: 'Adults Only',
+  },
+  {
+    id: 4,
+    name: 'Mature',
+  },
+  {
+    id: 3,
+    name: 'Teen',
+  },
+  {
+    id: 2,
+    name: 'Everyone 10+',
+  },
+  {
+    id: 1,
+    name: 'Everyone',
+  },
+];

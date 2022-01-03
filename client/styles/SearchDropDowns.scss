@@ -3,7 +3,7 @@
 @mixin styling() {
   background-color: white;
   border-color: #ccc;
-  border-radius: 4px;
+  border-radius: 15px;
   border-style: solid;
   border-width: 1px;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
@@ -11,14 +11,14 @@
 
 // DROPDOWNS CONTAINER //
 .dropDownsContainer {
-  // display: flex;
-  // flex-direction: row;
+  display: flex;
+  flex-direction: column;
   // flex-wrap: wrap;
   justify-content: space-evenly;
   max-width: 1140px;
   width: 100%;
   margin: auto;
-  padding: 20px 20px;
+  padding: 5% 5%;
 }
 
 // WRAPPER //
@@ -27,6 +27,8 @@
   flex-wrap: wrap;
   min-height: 38px;
   padding: 10px 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 // HEADER //
@@ -34,8 +36,9 @@
   @include styling();
   display: flex;
   justify-content: space-between;
+  // align-items: center;
   cursor: pointer;
-  width: 100%;
+  width: 80%;
   padding: 0 20px;
 
   &__title--bold {
@@ -49,7 +52,7 @@
   padding: 0;
   margin: 0;
   // height: 10%;
-  width: 30%;
+  width: 35%;
   margin-top: 10px;
 
   li {
@@ -82,7 +85,7 @@
       border-right: 1px solid #ccc;
 
       &:hover,
-      &:focus {
+      &:checked {
         cursor: pointer;
         font-weight: bold;
         background-color: #ccc;
@@ -94,19 +97,56 @@
 // SUBMIT SEARCH BUTTON //
 .submitSearchButton {
   @include styling();
+  background-color: rgb(238, 236, 236);
+  border-radius: 25px;
+  border-width: 2px;
+  border-style: bold solid;
+  border-color: rgb(55, 212, 252) !important;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  font-size: 1rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  min-height: 38px;
+  justify-content: center;
+  align-items: center;
+  min-height: 5rem;
+  min-width: 15rem;
   padding: 15px 30px;
   margin: auto;
-  margin-top: 15px;
+  margin-top: 4%;
 
-  &:hover,
-  &:focus {
+  &:hover {
     cursor: pointer;
     font-weight: bold;
-    background-color: #ccc;
+    background-color: rgb(55, 212, 252);
   }
+}
+
+// GAME NAME SEARCH BAR //
+.textSearch {
+  // @include styling();
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+// GAME NAME TEXT SEARCH BOX //
+#textSearchBox {
+  display: flex;
+  // @include styling();
+  font-size: 1.2rem;
+  height: 40px;
+  width: 50%;
+  margin-bottom: 3%;
+  // justify-content: center;
+  // align-items: center;
+  text-align: center;
+}
+
+// MAKE SELECTIONS BELOW H3 //
+.makeSelections {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

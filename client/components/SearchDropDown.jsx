@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import onClickOutside from 'react-onclickoutside';
 
 // INDIVIDUAL SEARCH DROPDOWN CREATOR FUNCTION //
-const SearchDropDown = ({ title, items = [], multiSelect = false }) => {
+const SearchDropDown = ({ category, title, items = [], multiSelect = true, searchState }) => {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState([]);
   const toggle = () => setOpen(!open);
-  
+
   // ONCLICK-OUTSIDE //
   // SearchDropdown.handleClickOutisde = () => setOpen(false);
 
@@ -17,11 +17,13 @@ const SearchDropDown = ({ title, items = [], multiSelect = false }) => {
         setSelection([item]);
       } else if (multiSelect) {
         setSelection([...selection, item]);
+        searchState(category, [...selection, item]);
       }
     } else {
       let selectionAfterRemoval = selection;
       selectionAfterRemoval = selectionAfterRemoval.filter((current) => current.id !== item.id);
       setSelection([...selectionAfterRemoval]);
+      searchState(category, [...selectionAfterRemoval]);
     }
   };
 
@@ -34,7 +36,7 @@ const SearchDropDown = ({ title, items = [], multiSelect = false }) => {
   };
 
   // CONSOLE LOG SELECTED ITEMS //
-  console.log(selection);
+  // console.log(selection);
 
   // RENDER RETURN //
   return (
