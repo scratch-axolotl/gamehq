@@ -14,6 +14,9 @@ const API_KEY = process.env.API_KEY;
 // Set the number of games to be retrieved per page to 40, which is the maximum.
 const PAGE_SIZE = 40;
 
+// Set the manner in which you want the results to be ordered
+const ORDERING = '-metacritic'
+
 // This is a platform reference table that converts frontend platform references to numbers used on the backend.
 import platformReference from '../constants/platforms.js';
 
@@ -60,7 +63,7 @@ gameController.retrieveGames = async (req, res, next) => {
   }
 
   console.log('the query you made to the remote api is ');
-  queryHolder += `&page_size=${PAGE_SIZE}`;
+  queryHolder += `&page_size=${PAGE_SIZE}&ordering=${ORDERING}`;
   console.log(queryHolder);
 
   // Fetch data from the server until we reach the end of our linked list, or hit max.
