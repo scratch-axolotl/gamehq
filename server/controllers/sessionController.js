@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 import db from './models.cjs';
 
+const SALT_WORK_FACTOR = 10;
+import bcrypt from 'bcryptjs';
+
 sessionController.loginUser = async (req, res, next) => {
 
   console.log('running get User');
@@ -44,15 +47,17 @@ sessionController.loginUser = async (req, res, next) => {
 
 sessionController.checkPassword = async (req, res, next) => {
   // when checking password, want to check whether the password passed in is the same as res.locals.password.
-  console.log('entering check password');
-  console.log('the value of req.body.password is ' + req.body.password);
-  console.log('the value of res.locals.passWord is ' + res.locals.passWord);
-  if (req.body.password === res.locals.passWord) {
-    res.locals.clearance = true;
-  } else {
-    res.locals.clearance = false;
-  }
-  return next();
+
+  //res.locals.hashedPass = await bcrypt.hash(req.body.password, SALT_WORK_FACTOR);
+  bcrypt.compare(req.body.password, res.locals.passWord, function (err, response) {
+    if (response === true) {
+      res.locals.clearance = true;
+    } else {
+      res.locals.clearance = false;
+    }
+    return next();
+  });
+
 };
 
 sessionController.addUser = async (req, res, next) => {
@@ -69,7 +74,7 @@ sessionController.addUser = async (req, res, next) => {
     console.log('going to add a new user because this user doesnt exist yet');
     res.locals.userAlreadyExists = false;
     res.locals.createUserName = req.body.username;
-    res.locals.createPassWord = req.body.password;
+    res.locals.createPassWord = await bcrypt.hash(req.body.password, SALT_WORK_FACTOR);
     res.locals.createName = req.body.name;
     const createUser = `INSERT INTO login (username, password, name) VALUES (\'${res.locals.createUserName}\', \'${res.locals.createPassWord}\', \'${res.locals.createName}\')`;
     await db.query(createUser, (err, result) => {

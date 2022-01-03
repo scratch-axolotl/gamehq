@@ -107,12 +107,12 @@ gameController.filterRating = (req, res, next) => {
     // for now, keep track for error-checking purposes of the total number of games in each category
     const retrievedRatingCounter = {
       'adults-only': 0,
-      mature: 0,
-      teen: 0,
+      'mature': 0,
+      'teen': 0,
       'everyone-10-plus': 0,
-      everyone: 0,
-      null: 0,
-      'rating-pending:': 0,
+      'everyone': 0,
+       null: 0,
+      'rating-pending': 0,
     };
 
     res.locals.gameData.forEach((game) => {
