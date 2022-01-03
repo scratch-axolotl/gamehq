@@ -5,7 +5,7 @@ client/dist/*
 node_modules/
 *.log
 testData/
-api_specs/genres.js
+api_specs/
 
 #.env files contain passwords/api keys
 .env
