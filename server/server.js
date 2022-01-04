@@ -16,11 +16,11 @@ app.use(express.json());
 app.post('/loginUser', sessionController.loginUser, sessionController.checkPassword, (req, res) => {
   if (res.locals.clearance === true) {
     res.json({
-      'loggedIn': true
+      loggedIn: true,
     });
   } else {
     res.json({
-      'loggedIn': false
+      loggedIn: false,
     });
   }
 });
@@ -29,19 +29,19 @@ app.post('/addUser', sessionController.loginUser, sessionController.addUser, (re
   // add functionality to reject if username already exists in database
   if (res.locals.userAlreadyExists === true) {
     res.json({
-      'created': true
-    })
+      created: true,
+    });
   } else {
     res.json({
-      'created': false
-    })
+      created: false,
+    });
   }
 });
 
 app.get('/getGames', gameController.retrieveGames, gameController.filterRating, (req, res) => {
   // This is the default directory, which will receive calls that are routed to '/api'.
-	res.set('Content-Type', 'application/json');
-	res.status(200);
+  res.set('Content-Type', 'application/json');
+  res.status(200);
 
   // should use some other method to stringify possibly, like .json.
   console.log('this is what is in query');
@@ -49,19 +49,25 @@ app.get('/getGames', gameController.retrieveGames, gameController.filterRating, 
   console.log('this is what is in params');
   console.log(req.params);
 
-	res.send(JSON.stringify(res.locals.gameResponse));
-
+  res.send(JSON.stringify(res.locals.gameResponse));
 });
-
 
 // If we need more specific info, retrieve it, along with the URLs for any movies or screenshots.
-app.get('/retrieveMore', gameController.retrieveMore, gameController.retrieveMovies, gameController.retrieveScreenshots, gameController.retrieveStores, gameController.formatPrices, (req, res) => {
-  res.set('Content-Type', 'application/json');
-  res.status(200);
-  console.log(res.locals.retrieveMovies);
-  console.log('made it to the end');
-  res.send(JSON.stringify(res.locals.movieInfo));
-});
+app.get(
+  '/retrieveMore',
+  gameController.retrieveMore,
+  gameController.retrieveMovies,
+  gameController.retrieveScreenshots,
+  gameController.retrieveStores,
+  gameController.formatPrices,
+  (req, res) => {
+    res.set('Content-Type', 'application/json');
+    res.status(200);
+    console.log(res.locals.retrieveMovies);
+    console.log('made it to the end');
+    res.send(JSON.stringify(res.locals.movieInfo));
+  }
+);
 
 app.get('*', (req, res) => {
   res.sendStatus(404);

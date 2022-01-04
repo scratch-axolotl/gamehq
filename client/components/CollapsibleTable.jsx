@@ -180,7 +180,7 @@ export default function CustomizedAccordions() {
       </Accordion>
       <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
         <AccordionSummary aria-controls='panel4d-content' id='panel4d-header'>
-          <Typography>Tags</Typography>
+          <Typography>ESRB</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>

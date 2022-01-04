@@ -1,3 +1,4 @@
+import { Link, useNavigate } from 'react-router-dom';
 import loginGame from '../dist/images/login-game.jpg';
 import { useState } from 'react';
 
@@ -5,36 +6,35 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  let navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     console.log('username: ', username);
     console.log('password: ', password);
 
     const result = await fetch('/api/loginUser', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     })
-    .then( (response) => {
-      console.log(response);
-      return response.json();
-    });
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
+
     console.log(result.loggedIn);
-    console.log(typeof result.loggedIn);
+    return result.loggedIn;
   };
 
   return (
     <div id='login-container'>
       <section id='login-left'>
-        <a className='logo login-signup-logo' href='/'>
+        <Link className='logo login-signup-logo' to='/'>
           gameHQ
-        </a>
+        </Link>
         <h1>Login</h1>
         <p>Let's get you logged in to find your next favorite game!</p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => (handleSubmit(e) ? navigate('/search') : console.log('couldnt log in'))}>
           <label>
             <input id='username' type='text' required placeholder='Username' name='username' onChange={(e) => setUsername(e.target.value)} />
             <span>Username</span>
@@ -46,7 +46,7 @@ const Login = () => {
           <input id='btn-submit' type='submit' value='Sign In' />
         </form>
         <p className='p2'>
-          Don't have an account already? <a href='/login'>Sign up</a>
+          Don't have an account already? <Link to='/signup'>Sign up</Link>
         </p>
       </section>
       <section id='login-right'>
