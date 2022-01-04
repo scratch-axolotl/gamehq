@@ -22,8 +22,10 @@ const Login = () => {
       .then((response) => response.json())
       .catch((error) => console.log(error));
 
+    console.log('this is the result of whether we can log in or')
     console.log(result.loggedIn);
-    return result.loggedIn;
+    if (result.loggedIn) navigate('/search');
+    else console.log('couldnt log in');
   };
 
   return (
@@ -34,7 +36,7 @@ const Login = () => {
         </Link>
         <h1>Login</h1>
         <p>Let's get you logged in to find your next favorite game!</p>
-        <form onSubmit={(e) => (handleSubmit(e) ? navigate('/search') : console.log('couldnt log in'))}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <label>
             <input id='username' type='text' required placeholder='Username' name='username' onChange={(e) => setUsername(e.target.value)} />
             <span>Username</span>

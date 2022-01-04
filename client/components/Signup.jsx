@@ -25,7 +25,8 @@ const Signup = () => {
       .catch((error) => console.log(error));
 
     console.log(result.created);
-    return result.created;
+    if (result.created) navigate('/search');
+    else console.log('couldnt sign up');
   };
 
   return (
@@ -40,7 +41,7 @@ const Signup = () => {
       <section id='signup-right'>
         <h1>Register</h1>
         <p>Let's get you all set up so you can begin browsing through games!</p>
-        <form onSubmit={(e) => (handleSubmit(e) ? navigate('/search') : console.log('couldnt sign up'))}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <label>
             <input id='name' type='text' required placeholder='Name' name='name' onChange={(e) => setName(e.target.value)} />
             <span>Name</span>
