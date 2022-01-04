@@ -1,8 +1,9 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './styles/App.css';
 import LandingPage from './components/LandingPage';
 import Signup from './components/Signup';
-import Login from './components/Login'
+import Login from './components/Login';
 import './styles/SearchDropDowns.scss';
 import DisplaySearchPage from './components/DisplaySearchPage';
 
@@ -12,10 +13,12 @@ const App = () => {
   // MAIN APP RENDER RETURN //
   return (
     <div>
-      {/* <LandingPage/> */}
-      <Signup/>
-      {/* <Login/> */}
-      <DisplaySearchPage />
+      <Routes>
+        <Route path='/' element={<LandingPage />} />
+        <Route path='signup' element={<Signup />} />
+        <Route path='login' element={<Login />} />
+        <Route path='search' element={<DisplaySearchPage />} />
+      </Routes>
     </div>
   );
 };

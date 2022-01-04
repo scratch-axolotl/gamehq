@@ -57,6 +57,23 @@ app.get('/getGames', gameController.retrieveGames, gameController.filterRating, 
   res.send(JSON.stringify(res.locals.gameResponse));
 });
 
+// If we need more specific info, retrieve it, along with the URLs for any movies or screenshots.
+app.get(
+  '/retrieveMore',
+  gameController.retrieveMore,
+  gameController.retrieveMovies,
+  gameController.retrieveScreenshots,
+  gameController.retrieveStores,
+  gameController.formatPrices,
+  (req, res) => {
+    res.set('Content-Type', 'application/json');
+    res.status(200);
+    console.log(res.locals.retrieveMovies);
+    console.log('made it to the end');
+    res.send(JSON.stringify(res.locals.movieInfo));
+  }
+);
+
 // Get More Game Detail Route: When client clicks the 'more info' button on a card, retrieve more detailed information regarding the game.
 // Details: (1) Video clip information (retrieveMovies); (2) Screen shot information (retrieveScreenshots); (3) Where purchasable (retrieveStores)
 // and (4) Separate API requests to individual stores, like steam [N.B.: #4 is not complete.]

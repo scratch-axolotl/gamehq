@@ -1,5 +1,4 @@
-import { Link, Routes, Route } from 'react-router-dom';
-// import Signup from "./Signup.jsx";
+import { Link } from 'react-router-dom';
 import gameshelf from '../dist/images/gameshelf.jpg';
 import arrow from '../dist/images/arrow.png';
 import arrowUp from '../dist/images/arrow-up.png';
@@ -30,19 +29,19 @@ const LandingPage = () => {
   return (
     <div>
       <nav id='nav-container' className='sticky'>
-        <a className='logo' href='/'>
+        <Link className='logo' to='/'>
           gameHQ
-        </a>
+        </Link>
         <ul id='nav-list'>
           <li className='nav-list-items'>
-            <a className='login' href='/sign-up'>
+            <Link className='login' to='/signup'>
               Sign Up
-            </a>
+            </Link>
           </li>
           <li className='nav-list-items'>
-            <a className='login' href='/login'>
+            <Link className='login' to='/login'>
               Login
-            </a>
+            </Link>
           </li>
           <li className='nav-list-items'>
             <a className='svg-icon' href='https://github.com/scratch-axolotl/gamehq' target='_blank' rel='noreferrer noopener'>
@@ -98,11 +97,6 @@ const LandingPage = () => {
           </div>
         </div>
       </Element>
-
-      {/* <Routes>
-        <Route path="/" element={<LandingPage />}/>
-        <Route path="signup" element={<Signup />}/>
-      </Routes> */}
     </div>
   );
 };
