@@ -15,18 +15,26 @@ app.use(express.json());
 
 app.post('/loginUser', sessionController.loginUser, sessionController.checkPassword, (req, res) => {
   if (res.locals.clearance === true) {
-    res.send('Access granted. You can go to the landing page');
+    res.json({
+      'loggedIn': true
+    });
   } else {
-    res.send('Access denied. You get bounced back to index.html');
+    res.json({
+      'loggedIn': false
+    });
   }
 });
 
 app.post('/addUser', sessionController.loginUser, sessionController.addUser, (req, res) => {
   // add functionality to reject if username already exists in database
   if (res.locals.userAlreadyExists === true) {
-    res.send('Failed. User already exists');
+    res.json({
+      'created': true
+    })
   } else {
-    res.send('Success. User doesnt exist, but was created');
+    res.json({
+      'created': false
+    })
   }
 });
 

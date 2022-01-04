@@ -5,19 +5,25 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log('username: ', username);
     console.log('password: ', password);
 
-    fetch('/api/loginUser', {
+    const result = await fetch('/api/loginUser', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ username, password })
     })
+    .then( (response) => {
+      console.log(response);
+      return response.json();
+    });
+    console.log(result.loggedIn);
+    console.log(typeof result.loggedIn);
   };
 
   return (
