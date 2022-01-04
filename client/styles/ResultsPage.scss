@@ -19,8 +19,9 @@
   // font-family: 'Anton', sans-serif;
   font-family: 'Libre Franklin', sans-serif;
   display: flex;
-  flex-direction: column;
-  // justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   align-items: center;
   align-content: center;
   // margin: 0;

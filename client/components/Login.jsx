@@ -25,7 +25,7 @@ const Login = () => {
     console.log('this is the result of whether we can log in or')
     console.log(result.loggedIn);
     if (result.loggedIn) navigate('/search');
-    else console.log('couldnt log in');
+    else alert('Incorrect user/password')
   };
 
   return (

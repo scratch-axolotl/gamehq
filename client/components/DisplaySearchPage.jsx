@@ -118,8 +118,8 @@ const DisplaySearchPage = () => {
   return (
     <div className='dropDownsContainer'>
       <SearchField />
-      <h3 className='makeSelections'>AND / OR</h3>
-      <h3 className='makeSelections'>MAKE SELECTIONS FROM THE DROP DOWNS BELOW</h3>
+      {/* <h3 className='makeSelections1'>AND / OR</h3> */}
+      <h3 className='makeSelections2'>MAKE SELECTIONS FROM THE DROP DOWNS BELOW</h3>
       <SearchDropDown category='genres' title='Select Genres' items={genreItems} multiSelect searchState={updateItemsToSearch} />
       <SearchDropDown category='platforms' title='Select Platforms' items={platformItems} multiSelect searchState={updateItemsToSearch} />
       <SearchDropDown category='tags' title='Select Tags' items={tagItems} multiSelect searchState={updateItemsToSearch} />

@@ -26,7 +26,7 @@ const Signup = () => {
 
     console.log(result.created);
     if (result.created) navigate('/search');
-    else console.log('couldnt sign up');
+    else alert('User already exists')
   };
 
   return (

@@ -16,7 +16,7 @@ function returnPlatforms(platformArray) {
   return platString.slice(0, -2);
 }
 
-function returnGenres (genreArray) {
+function returnGenres(genreArray) {
   let genreString = '';
   for (let i = 0; i < genreArray.length; i++) {
     genreString += genreArray[i].name + ', ';
@@ -24,15 +24,15 @@ function returnGenres (genreArray) {
   return genreString.slice(0, -2);
 }
 
-function returnTags (tagArray) {
-  let tagString ='';
+function returnTags(tagArray) {
+  let tagString = '';
   for (let i = 0; i < tagArray.length; i++) {
     tagString += tagArray[i].name + ', ';
   }
   return tagString.slice(0, -2);
 }
 
-function returnStores (storeArray) {
+function returnStores(storeArray) {
   let storeString = '';
   if (storeArray) {
     for (let i = 0; i < storeArray.length; i++) {
@@ -63,8 +63,6 @@ const ResultCardImage = (props) => {
   const tags = returnTags(props.resultCardInfo.tags);
   const esrb = props.resultCardInfo.esrb_rating.name;
   // const screenshots = props.resultCardInfo.screenshots;
-
-
 
   // CREATE ACCORDIAN FUNCTION //
   const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
@@ -128,17 +126,6 @@ const ResultCardImage = (props) => {
                   <li>Tags: {tags}</li>
                   <li>Stores: {stores}</li>
                 </ul>
-                {/* <ul className='list-1'>
-                <li>Massively Multiplayer</li>
-                <li>Platformer</li>
-                <li>Puzzle</li>
-                <li>Racing</li>
-                <li>RPG</li>
-                <li>Shooter</li>
-                <li>Simulation</li>
-                <li>Sports</li>
-                <li>Strategy</li>
-              </ul> */}
               </Typography>
             </AccordionDetails>
           </Accordion>
@@ -150,7 +137,7 @@ const ResultCardImage = (props) => {
   // MAIN RENDER RETURN //
   return (
     <React.Fragment>
-      <div>
+      <div className='card-div'>
         <section onClick={rotateresultCard} className={rotateCard ? 'resultCard' : 'resultCard active'}>
           <div className='front'>
             <img className='game-image' src={background_image}></img>
