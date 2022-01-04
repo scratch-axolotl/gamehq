@@ -23,7 +23,7 @@ sessionController.loginUser = async (req, res, next) => {
         return next({
           log: 'error encountered in loginUser',
           message: {
-            'err': `error encountered in loginUser: ${err}`;
+            'err': `error encountered in loginUser: ${err}`
           }
         });
       } else {
@@ -77,7 +77,7 @@ sessionController.addUser = async (req, res, next) => {
         return next({
           log: 'error encountered in addUser',
           message: {
-            'err': `error encountered in addUser: ${err}`;
+            'err': `error encountered in addUser: ${err}`
           }
         });
       } else {

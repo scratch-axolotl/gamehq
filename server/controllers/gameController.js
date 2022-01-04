@@ -81,7 +81,7 @@ gameController.filterRating = (req, res, next) => {
     return next({
       log: 'error encountered in gameController.filterRating',
       message: {
-        'err': 'error encountered:  res.locals.gameData is not set';
+        'err': 'error encountered:  res.locals.gameData is not set'
       }
     });
   }
@@ -138,7 +138,7 @@ gameController.filterRating = (req, res, next) => {
   return next({
       log: 'error encountered in gameController.filterRating',
       message: {
-        'err': 'error encountered:  did not return next from blocks for presence or absence of ESRB rating.';
+        'err': 'error encountered:  did not return next from blocks for presence or absence of ESRB rating.'
       }
   });
 };
@@ -160,7 +160,7 @@ gameController.retrieveMore = async (req, res, next) => {
       return next({
         log: 'error encountered in gameController.retrieveMore',
       message: {
-        'err': `error encountered in gameController.retrieveMore: ${err}`;
+        'err': `error encountered in gameController.retrieveMore: ${err}`
       }
       });
     }
@@ -183,7 +183,7 @@ gameController.retrieveMovies = async (req, res, next) => {
       return next({
         log: 'error encountered in gameController.retrieveMovies',
       message: {
-        'err': `error encountered in gameController.retrieveMovies: ${err}`;
+        'err': `error encountered in gameController.retrieveMovies: ${err}`
       }
       });
     }
@@ -206,7 +206,7 @@ gameController.retrieveScreenshots = async (req, res, next) => {
       return next({
         log: 'error encountered in gameController.retrieveScreenshots',
       message: {
-        'err': `error encountered in gameController.retrieveScreenshots: ${err}`;
+        'err': `error encountered in gameController.retrieveScreenshots: ${err}`
       }
       });
     }
@@ -229,7 +229,7 @@ gameController.retrieveStores = async (req, res, next) => {
       return next({
         log: 'error encountered in gameController.retrieveScreenshots',
       message: {
-        'err': `error encountered in gameController.retrieveScreenshots: ${err}`;
+        'err': `error encountered in gameController.retrieveScreenshots: ${err}`
       }
       });
     }
@@ -302,7 +302,7 @@ gameController.traverseLinked = async function (currentQuery) {
           return next({
             log: 'error encountered in traverseLinked',
             message: {
-              'err': `error encountered in traverseLinked: ${err}`;
+              'err': `error encountered in traverseLinked: ${err}`
             }
           });
         }
