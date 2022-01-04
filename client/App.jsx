@@ -1,4 +1,5 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './styles/App.css';
 import './styles/DisplaySearchPage.scss';
 import LandingPage from './components/LandingPage';
@@ -13,11 +14,13 @@ const App = () => {
   // MAIN APP RENDER RETURN //
   return (
     <div>
-      {/* <LandingPage/> */}
-      {/* <Signup/> */}
-      {/* <Login/> */}
-      {/* <DisplaySearchPage /> */}
       <ResultsPage />
+      <Routes>
+        <Route path='/' element={<LandingPage />} />
+        <Route path='signup' element={<Signup />} />
+        <Route path='login' element={<Login />} />
+        <Route path='search' element={<DisplaySearchPage />} />
+      </Routes>
     </div>
   );
 };
