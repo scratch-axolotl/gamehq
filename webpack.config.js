@@ -11,8 +11,10 @@ const config = {
     path: path.resolve(__dirname, 'client/dist'),
     filename: 'bundle.js',
   },
+  devtool: 'source-map',
   module: {
     rules: [
+      { test: /\.js$/, enforce: 'pre', use: ['source-map-loader'] },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -37,7 +39,7 @@ const config = {
         ],
         exclude: /\.module\.css$/,
       },
-       {
+      {
         test: /\.css$/,
         use: [
           'style-loader',

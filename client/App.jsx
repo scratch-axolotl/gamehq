@@ -1,10 +1,11 @@
 import React from 'react';
 import './styles/App.css';
+import './styles/DisplaySearchPage.scss';
 import LandingPage from './components/LandingPage';
 import Signup from './components/Signup';
-import Login from './components/Login'
-import './styles/SearchDropDowns.scss';
+import Login from './components/Login';
 import DisplaySearchPage from './components/DisplaySearchPage';
+import ResultsPage from './components/ResultsPage';
 
 // import { useState } from 'react';
 
@@ -13,9 +14,10 @@ const App = () => {
   return (
     <div>
       {/* <LandingPage/> */}
-      <Signup/>
+      {/* <Signup/> */}
       {/* <Login/> */}
-      <DisplaySearchPage />
+      {/* <DisplaySearchPage /> */}
+      <ResultsPage />
     </div>
   );
 };
