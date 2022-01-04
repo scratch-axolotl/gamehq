@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700,900');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');
+
+// @mixin styling() {
+//   background-color: #222;
+//   border-color: #ccc;
+//   // border-radius: 15px;
+//   border-style: solid;
+//   border-width: 1px;
+//   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+// }
+
+.resultsContainer {
+  // @include styling();
+  // font-family: 'Audiowide', cursive;
+  // font-family: 'Roboto', sans-serif;
+  // font-family: 'Anton', sans-serif;
+  font-family: 'Libre Franklin', sans-serif;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+  align-content: center;
+  // margin: 0;
+  // padding: 0;
+  // box-sizing: border-box;
+  background-color: #b9d7ea;
+  height: 100rem;
+}
+
+#collapsible-component {
+  // width: 40%;
+  width: 22.1rem;
+  // border-radius: 10px !important;
+}

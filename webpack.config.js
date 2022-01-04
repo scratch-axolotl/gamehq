@@ -42,7 +42,7 @@ const config = {
         ],
         exclude: /\.module\.css$/,
       },
-       {
+      {
         test: /\.css$/,
         use: [
           'style-loader',

@@ -1,0 +1,78 @@
+.resultCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 14rem;
+  width: 22rem; */
+  /* border-radius: 10px; */
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  /* position: absolute; */
+  top: 0.5rem;
+  background-size: cover;
+  transition: 0.3s ease all;
+  transform-style: preserve-3d;
+  z-index: 20;
+  user-select: none;
+  /* cursor: pointer; */
+  background-color: #000000;
+  margin-top: 5rem;
+}
+
+.resultCard.active {
+  transform: rotateY(180deg);
+}
+
+/* .front {
+  background-image: url('../test-images/creditcardFront.jpg');
+}
+
+.back {
+  background-image: url('../test-images/creditcardBack.jpg');
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+} */
+
+/*CREDIT CARD - FRONT PART*/
+
+.game-image {
+  height: 20rem;
+  width: 20rem;
+  object-fit: cover;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.name {
+  color: #ffffff;
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+
+.rating {
+  color: #ffffff;
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+}
+
+
+
+/*CREDIT CARD - BACK PART*/
+
+.back {
+  color: white;
+}
+
+
+
+
+
+

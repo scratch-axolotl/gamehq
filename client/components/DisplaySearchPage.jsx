@@ -104,9 +104,9 @@ const DisplaySearchPage = () => {
     // console.log(ESRBQ);
 
     // MAKE GET REQUEST TO BACKEND //
-    // fetch(`api/getGames?search=${gameNameQ}&genres=${genresQ}&platforms=${platformsQ}&tags=${tagsQ}&rating=${ESRBQ}`)
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data));
+    fetch(`api/getGames?search=${gameNameQ}&genres=${genresQ}&platforms=${platformsQ}&tags=${tagsQ}&rating=${ESRBQ}`)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   };
 
   // DISPLAY SEARCH PAGE RENDER RETURN //
