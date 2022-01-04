@@ -14,7 +14,7 @@ const App = () => {
   // MAIN APP RENDER RETURN //
   return (
     <div>
-      <ResultsPage />
+      {/*<ResultsPage />*/}
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='signup' element={<Signup />} />

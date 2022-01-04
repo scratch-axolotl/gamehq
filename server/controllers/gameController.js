@@ -26,7 +26,7 @@ const PAGE_SIZE = 40;
 const ORDERING = '-metacritic'
 
 // Maximum number of pages of PAGE_SIZE of games to traverse.
-const MAX_PAGES = 6;
+const MAX_PAGES = 2;
 
 
 

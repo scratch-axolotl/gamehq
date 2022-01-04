@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import SearchDropDown from './SearchDropDown';
 import { genreItems, platformItems, tagItems, ESRBitems } from '../SearchDropDownItems.js';
+import ResultsPage from './ResultsPage';
 
 // DISPLAY SEARCH PAGE FUNCTION //
 const DisplaySearchPage = () => {
@@ -13,6 +14,9 @@ const DisplaySearchPage = () => {
     tags: [],
     ESRB: [],
   });
+
+  // PASS SEARCH RESULT TO RESULTSPAGE.JSX
+  const [searchResult, setsearchResult] = useState({});
 
   // FUNCTION FOR MAINTAINING PARENT SEARCH STATE //
   const updateItemsToSearch = (category, item) => {
@@ -68,7 +72,7 @@ const DisplaySearchPage = () => {
   };
 
   // HANDLE SUBMIT SEARCH //
-  const handleSubmitSearch = () => {
+  const handleSubmitSearch = async () => {
     let gameNameQ = itemsToSearch.gameName;
     let genresQ = '';
     let platformsQ = '';
@@ -97,16 +101,17 @@ const DisplaySearchPage = () => {
     });
     if (ESRBQ.length > 1) ESRBQ = ESRBQ.slice(0, -1);
 
-    // console.log(gameNameQ);
-    // console.log(genresQ);
-    // console.log(platformsQ);
-    // console.log(tagsQ);
-    // console.log(ESRBQ);
-
     // MAKE GET REQUEST TO BACKEND //
-    fetch(`api/getGames?search=${gameNameQ}&genres=${genresQ}&platforms=${platformsQ}&tags=${tagsQ}&rating=${ESRBQ}`)
+    const newResult = await fetch(`api/getGames?search=${gameNameQ}&genres=${genresQ}&platforms=${platformsQ}&tags=${tagsQ}&rating=${ESRBQ}`)
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then( (data) =>
+      {
+        //console.log(data);
+        return data;
+      }
+    );
+    setsearchResult(newResult);
+    console.log(newResult);
   };
 
   // DISPLAY SEARCH PAGE RENDER RETURN //
@@ -120,6 +125,7 @@ const DisplaySearchPage = () => {
       <SearchDropDown category='tags' title='Select Tags' items={tagItems} multiSelect searchState={updateItemsToSearch} />
       <SearchDropDown category='ESRB' title='Select ESRB Ratings' items={ESRBitems} multiSelect searchState={updateItemsToSearch} />
       <SubmitSearchButton />
+      { Object.keys(searchResult).length !== 0 ? <ResultsPage searchresults={searchResult} /> : '' }
     </div>
   );
 };

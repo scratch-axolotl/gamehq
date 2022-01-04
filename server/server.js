@@ -24,11 +24,11 @@ app.post('/loginUser', sessionController.loginUser, sessionController.checkPassw
   // respond with a JSON object with one property: loggedIn: 'true.'
   if (res.locals.clearance === true) {
     res.json({
-      loggedIn: true,
+      'loggedIn': true,
     });
   } else {
     res.json({
-      loggedIn: false,
+      'loggedIn': false,
     });
   }
 });
@@ -38,13 +38,13 @@ app.post('/addUser', sessionController.loginUser, sessionController.addUser, (re
   // If the client is attempting to add a new user, respond with JSON object indicating the user was successfully created.
   if (res.locals.userAlreadyExists === false) {
     res.json({
-      created: true,
+      'created': true,
     });
   } else {
     // If the client is attempting to add a user that already existed, respond with a JSON object indicating the user was not created.
     // See middleware sessionController.addUser for more detail. DB will not create a user if user already exists.
     res.json({
-      created: false,
+      'created': false,
     });
   }
 });

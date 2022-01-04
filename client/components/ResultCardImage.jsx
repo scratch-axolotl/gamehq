@@ -8,6 +8,42 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 
+function returnPlatforms(platformArray) {
+  let platString = '';
+  for (let i = 0; i < platformArray.length; i++) {
+    platString += platformArray[i].platform.name + ', ';
+  }
+  return platString.slice(0, -2);
+}
+
+function returnGenres (genreArray) {
+  let genreString = '';
+  for (let i = 0; i < genreArray.length; i++) {
+    genreString += genreArray[i].name + ', ';
+  }
+  return genreString.slice(0, -2);
+}
+
+function returnTags (tagArray) {
+  let tagString ='';
+  for (let i = 0; i < tagArray.length; i++) {
+    tagString += tagArray[i].name + ', ';
+  }
+  return tagString.slice(0, -2);
+}
+
+function returnStores (storeArray) {
+  let storeString = '';
+  if (storeArray) {
+    for (let i = 0; i < storeArray.length; i++) {
+      storeString += storeArray[i].store.name + ', ';
+    }
+    return storeString.slice(0, -2);
+  } else {
+    return '';
+  }
+}
+
 // RENDER RESULT CARD IMAGE FUNCTION //
 const ResultCardImage = (props) => {
   // ROTATE CARD FUNCTION //
@@ -21,24 +57,14 @@ const ResultCardImage = (props) => {
   const rating = props.resultCardInfo.rating;
   const background_image = props.resultCardInfo.background_image;
   const released = props.resultCardInfo.released;
-  const platforms = props.resultCardInfo.platforms;
-  const genres = props.resultCardInfo.genres;
-  const stores = props.resultCardInfo.stores;
-  const tags = props.resultCardInfo.tags;
-  const esrb = props.resultCardInfo.esrb_rating;
-  const screenshots = props.resultCardInfo.screenshots;
+  const platforms = returnPlatforms(props.resultCardInfo.platforms);
+  const genres = returnGenres(props.resultCardInfo.genres);
+  const stores = returnStores(props.resultCardInfo.stores);
+  const tags = returnTags(props.resultCardInfo.tags);
+  const esrb = props.resultCardInfo.esrb_rating.name;
+  // const screenshots = props.resultCardInfo.screenshots;
 
-  // MAKE GENRES STRING //
-  let genresString = '';
-  // for (let i = 0; i < props.resultCardInfo.genres.length; i++) {
-  //   genresString += ``;
-  // }
-  // genres.forEach((genre) => {
-  //   console.log('hello')
-  // });
 
-  console.log(props.resultCardInfo);
-  console.log(genres);
 
   // CREATE ACCORDIAN FUNCTION //
   const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
@@ -82,6 +108,7 @@ const ResultCardImage = (props) => {
       setExpanded(newExpanded ? panel : false);
     };
 
+    // MORE INFO RENDER RETU
     return (
       <div>
         <div id='collapsible-component'>
@@ -94,12 +121,12 @@ const ResultCardImage = (props) => {
                 <ul className='list-1'>
                   <li>Name: {name}</li>
                   <li>Rating: {rating}</li>
-                  <li>ESRB Rating: {}</li>
+                  <li>ESRB Rating: {esrb}</li>
                   <li>Released: {released}</li>
-                  <li>Platforms: {}</li>
-                  <li>Genres: {} </li>
-                  <li>Tags: {}</li>
-                  <li>Stores: {}</li>
+                  <li>Platforms: {platforms}</li>
+                  <li>Genres: {genres} </li>
+                  <li>Tags: {tags}</li>
+                  <li>Stores: {stores}</li>
                 </ul>
                 {/* <ul className='list-1'>
                 <li>Massively Multiplayer</li>
